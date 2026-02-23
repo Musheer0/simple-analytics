@@ -22,6 +22,7 @@ export const AddWebsite = async(payload:AddWebsiteSchemaType)=>{
            },
        });
         await redis.set(redisKeys.WEBSITE_KEY_BY_ORG(new_website.id, orgId),new_website);
+        await redis.set(redisKeys.WEBSITE_KEY_BY_ID(new_website.id),new_website);
     return new_website
    } catch (e: any) {
        if (e?.code === 'P2002') throw new Error('This domain is already registered.');

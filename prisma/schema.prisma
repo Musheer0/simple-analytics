@@ -16,7 +16,7 @@ model Website {
   id String @id @default(cuid())
   user_id String 
   domain String 
-
+  visitors Visitor[]
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
   org_id String
@@ -25,4 +25,24 @@ model Website {
   @@index([org_id])
   @@index([domain ,org_id])
   @@unique([domain, org_id])
+}
+
+model Visitor {
+    id String @id @default(cuid())
+    website_id String
+    first_page String 
+    utm_campaign String?
+    utm_source String?
+    user_agent String 
+    browser String
+    device String
+    referrer String 
+    os  String
+    country_code String
+    ip String
+    device_type String
+    website Website @relation(references: [id],fields: [website_id],onDelete: Cascade)
+
+    created_at DateTime @default(now())
+    updated_at DateTime @updatedAt
 }

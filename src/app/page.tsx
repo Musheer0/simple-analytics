@@ -1,5 +1,5 @@
 import Image from "next/image";
-
+import Script from "next/script";
 export default function Home() {
   return (
     <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
@@ -60,6 +60,11 @@ export default function Home() {
           </a>
         </div>
       </main>
+      <Script 
+  src="http://localhost:3000/js/pixel.js" 
+  data-websiteid="cmlzhgtgi0000omk43p4dzfds"
+  defer
+></Script>
     </div>
   );
 }

@@ -1,5 +1,8 @@
 "use server";
+import { Website } from "@/generated/prisma/client";
 import prisma from "@/lib/db";
+import { redis } from "@/lib/redis";
+import { redisKeys } from "@/lib/redis-key-registry";
 import { RequireAuth } from "@/lib/requireAuth";
 
 export const getWebsitePaginatedNoCache = async (cursor?: number) => {
@@ -31,3 +34,10 @@ export const getWebsitePaginatedNoCache = async (cursor?: number) => {
     nextCursor: nextCursor?.getTime(),
   };
 };
+
+export const getWebsiteById = async(id:string)=>{
+  var website  = await redis.get<Website>(redisKeys.WEBSITE_KEY_BY_ID(id))
+  website = website|| await prisma.website.findFirst(({where:{id}}))
+  if(website) await redis.set(redisKeys.WEBSITE_KEY_BY_ID(id), website)
+  return website
+}
