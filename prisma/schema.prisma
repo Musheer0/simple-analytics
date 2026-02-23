@@ -12,3 +12,17 @@ generator client {
 datasource db {
   provider = "postgresql"
 }
+model Website {
+  id String @id @default(cuid())
+  user_id String 
+  domain String 
+
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+  org_id String
+  @@index([user_id, org_id])
+  @@index([user_id])
+  @@index([org_id])
+  @@index([domain ,org_id])
+  @@unique([domain, org_id])
+}
