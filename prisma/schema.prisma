@@ -15,7 +15,7 @@ datasource db {
 model Website {
   id String @id @default(cuid())
   user_id String 
-  domain String @unique
+  domain String 
 
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
@@ -24,4 +24,5 @@ model Website {
   @@index([user_id])
   @@index([org_id])
   @@index([domain ,org_id])
+  @@unique([domain, org_id])
 }

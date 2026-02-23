@@ -9,17 +9,24 @@ import { pagniatedWebsiteQuery } from "../lib/type";
 
 export const AddWebsite = async(payload:AddWebsiteSchemaType)=>{
     const {userId, orgId, orgRole, orgSlug}  = await auth();
-    const {success} = AddWebsiteSchema.safeParse(payload)
-    if(!success) throw new Error("Cannot process this data");
+    const {success,error} = AddWebsiteSchema.safeParse(payload)
+    if(!success) throw new Error(error.message);
     if(!userId || !orgId ||!orgRole ||!orgSlug) redirect('/sign-in');
-    const new_website = await prisma.website.create({
-        data:{
-            domain:payload.domain,
-            user_id:userId,
-            org_id:orgId
-        }
-    });
-    await redis.set(redisKeys.WEBSITE_KEY_BY_ORG(new_website.id, orgId),new_website);
+   let new_website;
+   try {
+       new_website = await prisma.website.create({
+           data: {
+               domain: payload.domain,
+               user_id: userId,
+               org_id: orgId,
+           },
+       });
+        await redis.set(redisKeys.WEBSITE_KEY_BY_ORG(new_website.id, orgId),new_website);
     return new_website
+   } catch (e: any) {
+       if (e?.code === 'P2002') throw new Error('This domain is already registered.');
+       throw new Error('Failed to create website.');
+   }
+   
 }
 
