@@ -1,10 +1,10 @@
 import type { Metadata } from "next";
-import {Inter_Tight } from "next/font/google";
+import { Inter_Tight } from "next/font/google";
 import "./globals.css";
-import { TooltipProvider } from "@/components/ui/tooltip"
+import { TooltipProvider } from "@/components/ui/tooltip";
 import { Toaster } from "@/components/ui/sonner";
-import { ThemeProvider } from "@/components/theme-provider"
-
+import { ThemeProvider } from "@/components/theme-provider";
+import Script from "next/script";
 
 const geistMono = Inter_Tight({
   variable: "--font-geist-mono",
@@ -23,19 +23,22 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body
-        className={`${geistMono.variable} antialiased`}
-      >
-         <ThemeProvider
-            attribute="class"
-            defaultTheme="system"
-            enableSystem
-            disableTransitionOnChange
-          >
- <TooltipProvider>{children}</TooltipProvider>      
-        <Toaster/>          </ThemeProvider>
-       
-        </body>
+      <body className={`${geistMono.variable} antialiased`}>
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
+        >
+          <TooltipProvider>{children}</TooltipProvider>
+          <Toaster />{" "}
+        </ThemeProvider>
+        <Script
+          src="http://localhost:3000/js/pixel.js"
+          data-websiteid="cmlzhgtgi0000omk43p4dzfds"
+          defer
+        ></Script>
+      </body>
     </html>
   );
 }

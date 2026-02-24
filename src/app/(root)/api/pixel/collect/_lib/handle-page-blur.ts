@@ -1,0 +1,44 @@
+import {
+  createEvent,
+  endVisitorSession,
+} from "@/features/analytics/actions/mutation";
+import { resolveRequestContext } from "./resolve-request";
+import { NextRequest, NextResponse } from "next/server";
+import { getVisitorSessionFromCookie } from "@/features/analytics/lib/get-visitor-session-cookie";
+import { redisKeys } from "@/lib/redis-key-registry";
+import { redis } from "@/lib/redis";
+
+export async function handlePageBlur(
+  req: NextRequest,
+  context: Awaited<ReturnType<typeof resolveRequestContext>>,
+) {
+  const { pixelCookie, parsed, website } = context!;
+  const sessionId = getVisitorSessionFromCookie(req);
+  if (!sessionId || !website)
+    return NextResponse.json({ success: false }, { status: 400 });
+  const response = NextResponse.json({ sessionId }, { status: 200 });
+  await createEvent({
+    type: parsed.type,
+    sessionId,
+    url: parsed.url,
+    visitorId: pixelCookie.visitor_id,
+    websiteId: website.id,
+    activeTime: parsed.active_time,
+    rawPayload: parsed,
+    pathHistory: parsed.path_history,
+  });
+  await redis.set(
+    redisKeys.PIXEL_VISITOR_SESSION_KEY(sessionId),
+    {
+      visitor: pixelCookie.visitor_id,
+      session_id: sessionId,
+      last_heartbeat: new Date(),
+      blur: {
+        stated: new Date(),
+        ended: new Date(),
+      },
+    },
+    { ex: 1000 * 60 * 30 },
+  );
+  return response;
+}

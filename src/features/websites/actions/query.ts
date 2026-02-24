@@ -35,9 +35,9 @@ export const getWebsitePaginatedNoCache = async (cursor?: number) => {
   };
 };
 
-export const getWebsiteById = async(id:string)=>{
-  var website  = await redis.get<Website>(redisKeys.WEBSITE_KEY_BY_ID(id))
-  website = website|| await prisma.website.findFirst(({where:{id}}))
-  if(website) await redis.set(redisKeys.WEBSITE_KEY_BY_ID(id), website)
-  return website
-}
+export const getWebsiteById = async (id: string) => {
+  var website = await redis.get<Website>(redisKeys.WEBSITE_KEY_BY_ID(id));
+  website = website || (await prisma.website.findFirst({ where: { id } }));
+  if (website) await redis.set(redisKeys.WEBSITE_KEY_BY_ID(id), website);
+  return website;
+};
