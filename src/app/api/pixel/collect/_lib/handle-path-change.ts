@@ -1,25 +1,22 @@
 import {
   createEvent,
-  createVisitorSession,
+  endVisitorSession,
 } from "@/features/analytics/actions/mutation";
 import { resolveRequestContext } from "./resolve-request";
 import { NextRequest, NextResponse } from "next/server";
-import { redis } from "@/lib/redis";
+import { getVisitorSessionFromCookie } from "@/features/analytics/lib/get-visitor-session-cookie";
 import { redisKeys } from "@/lib/redis-key-registry";
+import { redis } from "@/lib/redis";
+import { inngest } from "@/inngest/client";
 
-export async function handlePageView(
+export async function handlePathChange(
   req: NextRequest,
   context: Awaited<ReturnType<typeof resolveRequestContext>>,
 ) {
   const { parsed, website, pixelCookie } = context!;
   if (!website) return NextResponse.json({ success: false }, { status: 400 });
-  const sessionId = await createVisitorSession({
-    visitorId: pixelCookie.visitor_id,
-    websiteId: website.id,
-    screenWidth: parsed.screenWidth,
-    utmCampaign: parsed.utm_campaign || "",
-    utmSource: parsed.utm_source || "",
-  });
+  const sessionId = getVisitorSessionFromCookie(req);
+  if (!sessionId) return NextResponse.json({ success: false }, { status: 400 });
 
   await createEvent({
     type: parsed.type,
@@ -31,20 +28,7 @@ export async function handlePageView(
     rawPayload: parsed,
     pathHistory: parsed.path_history,
   });
-  
   const response = NextResponse.json({ sessionId }, { status: 200 });
-
-  response.cookies.set(
-    process.env.PIXEL_SESSION_COOKIE_NAME || "visitor_session",
-    sessionId,
-    {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
-      sameSite: "lax",
-      path: "/",
-      expires: new Date(Date.now() + 1000 * 60 * 60 * 24),
-    },
-  );
   await redis.set(
     redisKeys.PIXEL_VISITOR_SESSION_KEY(sessionId),
     {
@@ -54,5 +38,13 @@ export async function handlePageView(
     },
     { ex: 1000 * 60 * 30 },
   );
+  await inngest.send({
+    name: "analytics/update_analytics",
+    data: {
+      type: parsed.type,
+      pathHistory: parsed.path_history,
+      website_id: website.id,
+    },
+  });
   return response;
 }

@@ -13,7 +13,7 @@ const PageSchema = z.object({
 
 export const BasicWebsiteAnalyticsSchema = z.object({
   visitor_section: z.object({
-    bounce_rate: z.number().min(0).max(100), 
+    bounce_rate: z.number().min(0).max(100),
     page_views: z.number().int().nonnegative(),
     visitor: z.number().int().nonnegative(),
   }),
@@ -33,3 +33,6 @@ export const BasicWebsiteAnalyticsSchema = z.object({
     referrer: z.record(z.string(), z.number().int().nonnegative()),
   }),
 });
+export type BasicWebsiteAnalyticsSchemaType = z.infer<
+  typeof BasicWebsiteAnalyticsSchema
+>;

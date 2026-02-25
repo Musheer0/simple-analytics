@@ -1,6 +1,9 @@
 document.addEventListener(
   "DOMContentLoaded",
   (async function () {
+      if (window.__PIXEL_LOADED__) return;
+  window.__PIXEL_LOADED__ = true;
+
     if (typeof window === "undefined") return;
     const base_url = "http://localhost:3000/api/pixel";
     const script = document.currentScript;

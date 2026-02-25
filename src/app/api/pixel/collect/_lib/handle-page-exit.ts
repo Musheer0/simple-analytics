@@ -7,8 +7,9 @@ import { NextRequest, NextResponse } from "next/server";
 import { getVisitorSessionFromCookie } from "@/features/analytics/lib/get-visitor-session-cookie";
 import { redisKeys } from "@/lib/redis-key-registry";
 import { redis } from "@/lib/redis";
+import { inngest } from "@/inngest/client";
 
-export async function handlePathChange(
+export async function handlePageExit(
   req: NextRequest,
   context: Awaited<ReturnType<typeof resolveRequestContext>>,
 ) {
@@ -27,15 +28,18 @@ export async function handlePathChange(
     rawPayload: parsed,
     pathHistory: parsed.path_history,
   });
-  const response = NextResponse.json({ sessionId }, { status: 200 });
-  await redis.set(
-    redisKeys.PIXEL_VISITOR_SESSION_KEY(sessionId),
-    {
-      visitor: pixelCookie.visitor_id,
-      session_id: sessionId,
-      last_heartbeat: new Date(),
+
+  await endVisitorSession(sessionId);
+  await inngest.send({
+    name: "analytics/update_analytics",
+    data: {
+      type: parsed.type,
+      pathHistory: parsed.path_history,
+      website_id: website.id,
     },
-    { ex: 1000 * 60 * 30 },
-  );
+  });
+  const response = NextResponse.json({ sessionId }, { status: 200 });
+  response.cookies.delete(process.env.PIXEL_SESSION_COOKIE_NAME!);
+  await redis.del(redisKeys.PIXEL_VISITOR_SESSION_KEY(sessionId));
   return response;
 }

@@ -33,11 +33,7 @@ export default function RootLayout({
           <TooltipProvider>{children}</TooltipProvider>
           <Toaster />{" "}
         </ThemeProvider>
-        <Script
-          src="http://localhost:3000/js/pixel.js"
-          data-websiteid="cmm1qcnxi0003i1k4s729ggqz"
-          defer
-        ></Script>
+     
       </body>
     </html>
   );

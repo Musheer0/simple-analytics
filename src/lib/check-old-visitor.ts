@@ -10,15 +10,5 @@ export const checkOldVisitor = async (req: NextRequest) => {
   const decoded = DecodePixelJwt(cookie);
   if (!decoded) return null;
   const visitor = await getVisitor(decoded.website_id, decoded.visitor_id);
-  if (visitor) {
-    await prisma.visitor.update({
-      where: {
-        id: visitor.id,
-      },
-      data: {
-        visit_count: { increment: 1 },
-      },
-    });
-  }
   return visitor;
 };

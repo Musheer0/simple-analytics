@@ -1,4 +1,6 @@
-export const createInitialAnalytics = () => ({
+import { BasicWebsiteAnalyticsSchemaType } from "../schemas/analytics-schema";
+
+export const createInitialAnalytics = (): BasicWebsiteAnalyticsSchemaType => ({
   visitor_section: {
     bounce_rate: 0,
     page_views: 0,

@@ -1,4 +1,5 @@
 import { Website } from "@/generated/prisma/client";
+import { inngest } from "@/inngest/client";
 import prisma from "@/lib/db";
 import { getCountryCode } from "@/lib/get-country-code";
 import { redis } from "@/lib/redis";
@@ -50,6 +51,19 @@ export const handleNewVisitor = async (
   };
   const jwt_token = signJwtInfinite(jwt_payload);
   const response = NextResponse.json({ success: true }, { status: 200 });
+  await inngest.send({
+    name: "analytics/update_analytics",
+    data: {
+      type: "new_visitor".toUpperCase(),
+      website_id: website.id,
+      metadata: {
+        browser,
+        os,
+        device_type,
+        country_code,
+      },
+    },
+  });
   response.cookies.set("_visitor_sa", jwt_token, {
     httpOnly: true,
     secure: process.env.NODE_ENV === "production",
