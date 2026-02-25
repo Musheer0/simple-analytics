@@ -64,7 +64,7 @@ document.addEventListener(
     };
     const startHeartbeat = () => {
       if (!heartbeat) {
-        heartbeat = setInterval(() => sendEvent("heartbeat"), 15000);
+        heartbeat = setInterval(() => sendEvent("heartbeat"), 125000);
       }
     };
     const stopHeatbeat = () => {

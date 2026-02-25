@@ -31,7 +31,7 @@ export async function handlePageView(
     rawPayload: parsed,
     pathHistory: parsed.path_history,
   });
-
+  
   const response = NextResponse.json({ sessionId }, { status: 200 });
 
   response.cookies.set(

@@ -23,8 +23,8 @@ model Website {
   org_id     String
   sessions   Session[]
   events     Event[]
-
-  @@unique([domain, org_id])
+   basic_analytics  BasicWebsiteAnalytics?
+  @@unique([domain])
   @@index([user_id, org_id])
   @@index([user_id])
   @@index([org_id])
@@ -112,4 +112,28 @@ model Event {
   @@index([visitor_id])
   @@index([type])
   @@index([created_at])
+}
+
+model BasicWebsiteAnalytics {
+  id        String   @id @default(cuid())
+  websiteId String @unique
+  website Website @relation(fields: [websiteId],references: [id], onDelete: Cascade)
+  // visitor_section
+  bounceRate Float @default(0)
+  pageViews  Int   @default(0)
+  visitors   Int   @default(0)
+
+  // pages_section (parallel arrays)
+  pageHistory Json[]  @default([])
+
+  // utm.source
+  utm_source Json[]  @default([])
+ 
+  // utm.campaign
+  utm_campaign  Json[] @default([])
+
+  //metadata 
+  metadata Json @default("{\"browser\": {}, \"country_code\": {}, \"device_type\": {}, \"os\": {}, \"referrer\": {}}")
+  last_updated DateTime @updatedAt
+  createdAt DateTime @default(now())
 }

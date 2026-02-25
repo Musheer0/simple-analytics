@@ -55,7 +55,6 @@ export const handleNewVisitor = async (
     secure: process.env.NODE_ENV === "production",
     sameSite: "lax",
     path: "/",
-    expires: new Date("2099-12-31T23:59:59.000Z"),
   });
 
   return response;

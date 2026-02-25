@@ -9,4 +9,5 @@ export const redisKeys = {
   PIXEL_VISITOR_KEY: (websiteId: string, visitorId: string) =>
     `pixel:website:${websiteId}:visitor:${visitorId}`,
   PIXEL_VISITOR_SESSION_KEY: (session: string) => `pixel:session:${session}`,
+  BASIC_WEBSITE_ANALYTICS:(websiteId:string) =>`basic:website:${websiteId}:analytics`
 };
