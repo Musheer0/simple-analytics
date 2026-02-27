@@ -21,7 +21,10 @@ export async function handlePageView(
     utmCampaign: parsed.utm_campaign || "",
     utmSource: parsed.utm_source || "",
   });
-
+   if(!parsed.url.endsWith('/')) {
+    if(parsed.path_history) parsed.path_history.push(parsed.url)
+    else parsed.path_history = [parsed.url]
+   }
   await createEvent({
     type: parsed.type,
     sessionId,
@@ -36,6 +39,10 @@ export async function handlePageView(
     name: "analytics/update_analytics",
     data: {
       ...parsed,
+      page_view: {
+        utm_campaign:parsed.utm_campaign,
+        utm_source:parsed.utm_source
+      },
       website_id: website.id,
     },
     
@@ -60,7 +67,7 @@ export async function handlePageView(
       session_id: sessionId,
       last_heartbeat: new Date(),
     },
-    { ex: 1000 * 60 * 30 },
+    { ex:  60 * 30 },
   );
   return response;
 }

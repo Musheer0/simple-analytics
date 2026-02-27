@@ -25,14 +25,6 @@ export async function handleHeartBeat(
       last_heartbeat: new Date(),
     },
   });
-  await redis.set(
-    redisKeys.PIXEL_VISITOR_SESSION_KEY(sessionId),
-    {
-      visitor: pixelCookie.visitor_id,
-      session_id: sessionId,
-      last_heartbeat: new Date(),
-    },
-    { ex: 1000 * 60 * 30 },
-  );
+
   return response;
 }

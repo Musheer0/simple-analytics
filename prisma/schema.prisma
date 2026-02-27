@@ -51,6 +51,11 @@ model Visitor {
   updated_at DateTime  @updatedAt
   sessions   Session[]
   events     Event[]
+    @@index([website_id, created_at])
+  @@index([website_id, country_code])
+  @@index([website_id, device_type])
+  @@index([website_id, os])
+  @@index([website_id, browser])
 }
 
 model Session {
@@ -71,9 +76,10 @@ model Session {
 
   events Event[]
 
-  @@index([website_id])
+    @@index([website_id, started_at])
+  @@index([website_id, utm_source, started_at])
+  @@index([website_id, utm_campaign, started_at])
   @@index([visitor_id])
-  @@index([started_at])
 }
 
 enum EventType {
@@ -107,11 +113,10 @@ model Event {
 
   created_at DateTime @default(now())
 
-  @@index([website_id])
+  @@index([website_id, type, created_at])
+  @@index([website_id, created_at])
   @@index([session_id])
   @@index([visitor_id])
-  @@index([type])
-  @@index([created_at])
 }
 
 model BasicWebsiteAnalytics {
@@ -131,7 +136,7 @@ model BasicWebsiteAnalytics {
  
   // utm.campaign
   utm_campaign  Json[] @default([])
-
+   snapshot_at DateTime @updatedAt
   //metadata 
   metadata Json @default("{\"browser\": {}, \"country_code\": {}, \"device_type\": {}, \"os\": {}, \"referrer\": {}}")
   last_updated DateTime @updatedAt

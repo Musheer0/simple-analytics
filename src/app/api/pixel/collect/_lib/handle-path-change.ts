@@ -42,7 +42,7 @@ export async function handlePathChange(
     name: "analytics/update_analytics",
     data: {
       type: parsed.type,
-      pathHistory: parsed.path_history,
+      path_changes: parsed.path_history||[],
       website_id: website.id,
     },
   });

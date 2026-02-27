@@ -8,7 +8,6 @@ document.addEventListener(
     const base_url = "http://localhost:3000/api/pixel";
     const script = document.currentScript;
     var path_changes = []; //track path changes
-    let heartbeat = null;
     if (!script) return;
     const website_id = script.getAttribute("data-websiteid");
     if (!website_id || typeof website_id !== "string") return;
@@ -65,18 +64,6 @@ document.addEventListener(
         keepalive: true,
       }).catch(() => {});
     };
-    const startHeartbeat = () => {
-      if (!heartbeat) {
-        heartbeat = setInterval(() => sendEvent("heartbeat"), 125000);
-      }
-    };
-    const stopHeatbeat = () => {
-      if (heartbeat) {
-        clearInterval(heartbeat);
-        heartbeat = null;
-      }
-    };
-
     const sendExit = () => {
       console.log(path_changes);
       activeTime += performance.now() - activeStart;
@@ -104,38 +91,8 @@ document.addEventListener(
       sendPathChange();
     };
     sendEvent("page_view");
-    startHeartbeat();
-    let timer = null;
 
-    document.addEventListener("visibilitychange", () => {
-      if (document.visibilityState === "hidden") {
-        stopHeatbeat();
-
-        activeTime += performance.now() - activeStart;
-
-        timer = setTimeout(() => {
-          sendEvent("page_blur", {
-            active_time: Math.round(activeTime),
-            path_history: path_changes,
-          });
-          if (timer) {
-            clearTimeout(timer);
-            timer = null;
-          }
-        }, 5000);
-      } else {
-        activeStart = performance.now();
-        timer = setTimeout(() => {
-          sendEvent("page_unblur");
-
-          if (timer) {
-            clearTimeout(timer);
-            timer = null;
-          }
-          startHeartbeat();
-        }, 1000);
-      }
-    });
+   
     window.addEventListener("popstate", sendPathChange);
     window.addEventListener("pagehide", sendExit);
   })(),
