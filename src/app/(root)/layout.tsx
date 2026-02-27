@@ -14,11 +14,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
       <TanstackReactQueryClientProvider>
         {children}
       </TanstackReactQueryClientProvider>
-         <Script
-          src="http://localhost:3000/js/pixel.js"
-          data-websiteid="cmm2cyj7n00031mk4tjmo6uci"
-          defer
-        ></Script>
+        
     </ClerkProvider>
   );
 };

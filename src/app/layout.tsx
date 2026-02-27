@@ -1,13 +1,12 @@
 import type { Metadata } from "next";
-import { Inter_Tight } from "next/font/google";
+import { Host_Grotesk } from "next/font/google";
 import "./globals.css";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { Toaster } from "@/components/ui/sonner";
 import { ThemeProvider } from "@/components/theme-provider";
 import Script from "next/script";
 
-const geistMono = Inter_Tight({
-  variable: "--font-geist-mono",
+const geistMono = Host_Grotesk({
   subsets: ["latin"],
 });
 
@@ -23,7 +22,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${geistMono.variable} antialiased`}>
+      <body className={`${geistMono.className} antialiased`}>
         <ThemeProvider
           attribute="class"
           defaultTheme="system"

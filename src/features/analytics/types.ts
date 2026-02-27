@@ -30,7 +30,7 @@ export type WebsiteAnalytics = {
   bounce_rate: number;
   page_views: number;
   unique_views: number;
-
+  avg_session?:number
   utm_source: Record<string, number>;
   utm_campaign: Record<string, number>;
 

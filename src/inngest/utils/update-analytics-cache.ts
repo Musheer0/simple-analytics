@@ -40,7 +40,7 @@ export const update_analytic_cache_by_time = async (
   const cache = await redis.get<WebsiteAnalytics>(cache_key);
   if (!cache || !cache.duration || !cache.cached_at) return;
   const cache_duration_ms = ANALYTICS_TIME_MS[key];
-  if (!cache_duration_ms) return;
+  if (!cache_duration_ms) return;   
   const elapsed = Date.now() - new Date(cache.cached_at).getTime();
   const remaining_time = Math.max(
     Math.floor((cache_duration_ms - elapsed) / 1000),

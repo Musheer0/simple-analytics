@@ -25,7 +25,7 @@ export const getVisitor = async (
   return visitor;
 };
 
-export const getBasicWebsiteAnalytics =async(data:{websiteId:string,duration: keyof typeof ANALYTICS_TIME})=>{
+export const getBasicWebsiteAnalytics =async(data:{websiteId:string,duration: keyof typeof ANALYTICS_TIME,includeWebsite?:boolean})=>{
   
   if(!data.websiteId || !data.duration) throw new Error("invalid data");
   
@@ -39,7 +39,7 @@ export const getBasicWebsiteAnalytics =async(data:{websiteId:string,duration: ke
   if(!duration) throw new Error("duration not supported");
   const cache_key = redisKeys[`BASIC_WEBSITE_ANALYTICS_${data.duration}`](website.id)
   const cache = await redis.get<WebsiteAnalytics>(cache_key);
-  if(cache) return cache;
+  if(cache) return data.includeWebsite ?{website,...cache} :cache;
 
   const s = Date.now()
   //page_visitor_section
@@ -149,6 +149,12 @@ FROM  "Event"
 GROUP BY page
 ORDER BY visits DESC ;
   `;
+  const [avg] = await prisma.$queryRaw<{avg_time:number}[]>`
+  select avg(active_time)/1000 as avg_time from "Event" where type ='PAGE_EXIT' 
+  and website_id=${website.id}
+  AND created_at >= NOW() -  ${duration}::interval
+
+  `
   const e = Date.now()
   console.log((e-s)/1000+"secs")
   const result:WebsiteAnalytics = {
@@ -161,9 +167,11 @@ ORDER BY visits DESC ;
     operating_systems:metadata.operating_systems,
     pages:page_history,
     utm_campaign:utm.utm_campaign,
-    utm_source:utm.utm_source
+    utm_source:utm.utm_source,
+    avg_session:avg.avg_time
   };
+  
   const parsed_result = bigintToNumberJSON<WebsiteAnalytics>(result)
   await redis.set(cache_key, {...parsed_result,duration:data.duration,cached_at:new Date()},{ex:TTL.HOUR_1});
-  return {...parsed_result, duration:data.duration}
+  return data.includeWebsite ? {...parsed_result, duration:data.duration,website}:{...parsed_result, duration:data.duration}
 }

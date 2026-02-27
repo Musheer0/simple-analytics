@@ -117,7 +117,10 @@ model Event {
   @@index([website_id, created_at])
   @@index([session_id])
   @@index([visitor_id])
+  @@index([active_time, website_id])
+  @@index([active_time])
 }
+
 
 model BasicWebsiteAnalytics {
   id        String   @id @default(cuid())
