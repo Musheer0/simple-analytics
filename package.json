@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build &&  terser ./public/js/pixel.js -o ./public/js/pixel.min.js -c -m",
+    "build": "next build &&  prisma generate && terser ./public/js/pixel.js -o ./public/js/pixel.min.js -c -m",
     "start": "next start",
     "lint": "biome check",
     "format": "biome format --write",
