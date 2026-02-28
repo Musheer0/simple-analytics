@@ -16,6 +16,8 @@ import {
   X,
   ChevronRight,
 } from 'lucide-react'
+import { HugeiconsIcon } from '@hugeicons/react'
+import { QuestionIcon } from '@hugeicons/core-free-icons'
 
 export default function Home() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
@@ -41,17 +43,19 @@ export default function Home() {
               <Link href="#how-it-works" className="text-sm text-muted-foreground hover:text-foreground transition">
                 How It Works
               </Link>
-              <Link href="#pricing" className="text-sm text-muted-foreground hover:text-foreground transition">
-                Pricing
-              </Link>
+            
             </div>
 
             {/* CTA Buttons */}
             <div className="hidden md:flex items-center gap-3">
+             <Link href={'/sign-in'}>
               <Button variant="ghost" size="sm">
                 Log In
               </Button>
+             </Link>
+              <Link href={'/websites'}>
               <Button size="sm">Get Started</Button>
+              </Link>
             </div>
 
             {/* Mobile Menu Button */}
@@ -106,8 +110,10 @@ export default function Home() {
       </nav>
 
       {/* Hero Section */}
-      <section className="relative px-4 sm:px-6 lg:px-8 py-20 md:py-32">
-        <div className="mx-auto max-w-4xl text-center">
+      <section className="relative flex flex-col px-4 sm:px-6  h-screen lg:px-8 py-20 md:py-32">
+        <img src="/hero.png" alt="hero" className='absolute top-0  
+        opacity-20 pointer-events-none  left-0 mix-blend-lighten  blur-lg' />
+        <div className="mx-auto max-w-4xl flex flex-col items-center justify-between h-full text-center">
           {/* Badge */}
           <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-secondary border border-border mb-6 md:mb-8">
             <span className="relative flex items-center justify-center w-2 h-2">
@@ -115,7 +121,7 @@ export default function Home() {
               <span className="relative inline-flex rounded-full h-2 w-2 bg-primary"></span>
             </span>
             <span className="text-xs md:text-sm text-secondary-foreground font-medium">
-              Now tracking 10K+ websites
+              Now tracking 10m+ websites
             </span>
           </div>
 
@@ -132,23 +138,22 @@ export default function Home() {
 
           {/* CTA Buttons */}
           <div className="flex flex-col sm:flex-row gap-4 justify-center mb-12">
+            <Link href={'/websites'}>
             <Button size="lg" className="gap-2">
               Start Free Trial
               <ArrowRight className="w-4 h-4" />
             </Button>
-            <Button size="lg" variant="outline">
-              View Demo
-            </Button>
+            </Link>
           </div>
-
+         <div className='w-full flex-1 p-5 '></div>
           {/* Social Proof */}
-          <div className="flex flex-col items-center gap-4 text-sm text-muted-foreground">
+          <div className="flex flex-col mt-auto items-center gap-4 text-sm text-muted-foreground">
             <p>Trusted by</p>
             <div className="flex items-center gap-6 flex-wrap justify-center opacity-60">
-              <span className="font-semibold">TechStart</span>
-              <span className="font-semibold">DataCorp</span>
-              <span className="font-semibold">WebFlow</span>
-              <span className="font-semibold">CloudSync</span>
+              <span className="font-semibold">SpaceX</span>
+              <span className="font-semibold">Google Analytics</span>
+              <span className="font-semibold">Vercel Analytics</span>
+              <span className="font-semibold">CloudFlare Web Analytics</span>
             </div>
           </div>
         </div>
@@ -195,13 +200,13 @@ export default function Home() {
             </Card>
 
             <Card className="p-6 md:p-8 hover:shadow-lg transition-shadow">
-              <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center mb-4">
-                <TrendingUp className="w-6 h-6 text-primary" />
+                <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center mb-4">
+              <HugeiconsIcon icon={QuestionIcon} className='w-6 h-6'/>
               </div>
-              <h3 className="font-bold text-lg mb-2">Real-Time Data</h3>
-              <p className="text-muted-foreground text-sm">
-                See your analytics update instantly. No delays, no waiting. Pure real-time insights.
-              </p>
+              
+              
+                <h3 className="font-bold text-lg mb-2">What could be this feature?</h3>
+              <Link href={'https://x.com/musheer_an'} className='text-muted-foreground text-sm underline '>Dm you know a good feature for this app</Link>
             </Card>
 
             <Card className="p-6 md:p-8 hover:shadow-lg transition-shadow">
@@ -310,7 +315,7 @@ export default function Home() {
         <div className="mx-auto max-w-6xl">
           <div className="grid md:grid-cols-4 gap-8 text-center">
             <div>
-              <p className="text-4xl md:text-5xl font-bold text-primary mb-2">10K+</p>
+              <p className="text-4xl md:text-5xl font-bold text-primary mb-2">10m+</p>
               <p className="text-muted-foreground">Active Websites</p>
             </div>
             <div>
@@ -318,166 +323,16 @@ export default function Home() {
               <p className="text-muted-foreground">Events Tracked Monthly</p>
             </div>
             <div>
-              <p className="text-4xl md:text-5xl font-bold text-primary mb-2">99.9%</p>
+              <p className="text-4xl md:text-5xl font-bold text-primary mb-2">99.67%</p>
               <p className="text-muted-foreground">Uptime SLA</p>
             </div>
             <div>
-              <p className="text-4xl md:text-5xl font-bold text-primary mb-2">&lt;50ms</p>
+              <p className="text-4xl md:text-5xl font-bold text-primary mb-2">&lt;67ms</p>
               <p className="text-muted-foreground">Average Response Time</p>
             </div>
           </div>
         </div>
       </section>
-
-      {/* Pricing Section */}
-      <section id="pricing" className="px-4 sm:px-6 lg:px-8 py-20 md:py-32">
-        <div className="mx-auto max-w-6xl">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4">
-              Simple pricing for every size
-            </h2>
-            <p className="text-muted-foreground max-w-2xl mx-auto">
-              Start free. Pay only for what you use. No surprises.
-            </p>
-          </div>
-
-          {/* Pricing Cards */}
-          <div className="grid md:grid-cols-3 gap-6">
-            <Card className="p-8">
-              <h3 className="text-lg font-bold mb-2">Starter</h3>
-              <p className="text-muted-foreground text-sm mb-6">Perfect for small projects</p>
-              <p className="text-3xl font-bold mb-6">
-                Free
-                <span className="text-sm text-muted-foreground font-normal"> forever</span>
-              </p>
-              <ul className="space-y-3 mb-8 text-sm">
-                <li className="flex items-center gap-2">
-                  <span className="w-4 h-4 rounded-full bg-primary/20 flex items-center justify-center">
-                    <span className="w-2 h-2 rounded-full bg-primary"></span>
-                  </span>
-                  Up to 10K monthly events
-                </li>
-                <li className="flex items-center gap-2">
-                  <span className="w-4 h-4 rounded-full bg-primary/20 flex items-center justify-center">
-                    <span className="w-2 h-2 rounded-full bg-primary"></span>
-                  </span>
-                  Basic analytics
-                </li>
-                <li className="flex items-center gap-2">
-                  <span className="w-4 h-4 rounded-full bg-primary/20 flex items-center justify-center">
-                    <span className="w-2 h-2 rounded-full bg-primary"></span>
-                  </span>
-                  Community support
-                </li>
-              </ul>
-              <Button variant="outline" className="w-full">
-                Start Free
-              </Button>
-            </Card>
-
-            <Card className="p-8 border-primary border-2 relative">
-              <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2">
-                <span className="bg-primary text-primary-foreground px-3 py-1 rounded-full text-xs font-semibold">
-                  Most Popular
-                </span>
-              </div>
-              <h3 className="text-lg font-bold mb-2">Professional</h3>
-              <p className="text-muted-foreground text-sm mb-6">Growing businesses</p>
-              <p className="text-3xl font-bold mb-2">
-                $29
-                <span className="text-sm text-muted-foreground font-normal">/month</span>
-              </p>
-              <p className="text-xs text-muted-foreground mb-6">+ $0.05 per 1K events</p>
-              <ul className="space-y-3 mb-8 text-sm">
-                <li className="flex items-center gap-2">
-                  <span className="w-4 h-4 rounded-full bg-primary/20 flex items-center justify-center">
-                    <span className="w-2 h-2 rounded-full bg-primary"></span>
-                  </span>
-                  Unlimited events
-                </li>
-                <li className="flex items-center gap-2">
-                  <span className="w-4 h-4 rounded-full bg-primary/20 flex items-center justify-center">
-                    <span className="w-2 h-2 rounded-full bg-primary"></span>
-                  </span>
-                  Advanced analytics
-                </li>
-                <li className="flex items-center gap-2">
-                  <span className="w-4 h-4 rounded-full bg-primary/20 flex items-center justify-center">
-                    <span className="w-2 h-2 rounded-full bg-primary"></span>
-                  </span>
-                  Custom events
-                </li>
-                <li className="flex items-center gap-2">
-                  <span className="w-4 h-4 rounded-full bg-primary/20 flex items-center justify-center">
-                    <span className="w-2 h-2 rounded-full bg-primary"></span>
-                  </span>
-                  Email support
-                </li>
-              </ul>
-              <Button className="w-full">Get Started</Button>
-            </Card>
-
-            <Card className="p-8">
-              <h3 className="text-lg font-bold mb-2">Enterprise</h3>
-              <p className="text-muted-foreground text-sm mb-6">Custom solutions</p>
-              <p className="text-3xl font-bold mb-6">
-                Custom
-              </p>
-              <ul className="space-y-3 mb-8 text-sm">
-                <li className="flex items-center gap-2">
-                  <span className="w-4 h-4 rounded-full bg-primary/20 flex items-center justify-center">
-                    <span className="w-2 h-2 rounded-full bg-primary"></span>
-                  </span>
-                  Everything in Pro
-                </li>
-                <li className="flex items-center gap-2">
-                  <span className="w-4 h-4 rounded-full bg-primary/20 flex items-center justify-center">
-                    <span className="w-2 h-2 rounded-full bg-primary"></span>
-                  </span>
-                  SLA guarantee
-                </li>
-                <li className="flex items-center gap-2">
-                  <span className="w-4 h-4 rounded-full bg-primary/20 flex items-center justify-center">
-                    <span className="w-2 h-2 rounded-full bg-primary"></span>
-                  </span>
-                  Dedicated support
-                </li>
-                <li className="flex items-center gap-2">
-                  <span className="w-4 h-4 rounded-full bg-primary/20 flex items-center justify-center">
-                    <span className="w-2 h-2 rounded-full bg-primary"></span>
-                  </span>
-                  Custom integrations
-                </li>
-              </ul>
-              <Button variant="outline" className="w-full">
-                Contact Sales
-              </Button>
-            </Card>
-          </div>
-        </div>
-      </section>
-
-      {/* CTA Section */}
-      <section className="px-4 sm:px-6 lg:px-8 py-20 md:py-32 bg-secondary/50">
-        <div className="mx-auto max-w-3xl text-center">
-          <h2 className="text-3xl md:text-4xl font-bold mb-6">
-            Ready to understand your visitors?
-          </h2>
-          <p className="text-lg text-muted-foreground mb-8">
-            Join thousands of websites already using Simple Analytics.
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button size="lg" className="gap-2">
-              Start Free Trial
-              <ArrowRight className="w-4 h-4" />
-            </Button>
-            <Button size="lg" variant="outline">
-              Schedule Demo
-            </Button>
-          </div>
-        </div>
-      </section>
-
       {/* Footer */}
       <footer className="border-t border-border px-4 sm:px-6 lg:px-8 py-12 bg-background">
         <div className="mx-auto max-w-6xl">
@@ -525,8 +380,8 @@ export default function Home() {
           <div className="border-t border-border pt-8 flex flex-col md:flex-row items-center justify-between text-sm text-muted-foreground">
             <p>&copy; 2026 Simple Analytics. All rights reserved.</p>
             <div className="flex gap-6 mt-4 md:mt-0">
-              <Link href="#" className="hover:text-foreground transition">Twitter</Link>
-              <Link href="#" className="hover:text-foreground transition">GitHub</Link>
+              <Link href="https://x.com/musheer_an" className="hover:text-foreground transition">Twitter</Link>
+              <Link href="https://github.com/Musheer0" className="hover:text-foreground transition">GitHub</Link>
               <Link href="#" className="hover:text-foreground transition">Discord</Link>
             </div>
           </div>
