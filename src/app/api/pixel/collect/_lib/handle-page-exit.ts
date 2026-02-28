@@ -8,6 +8,7 @@ import { getVisitorSessionFromCookie } from "@/features/analytics/lib/get-visito
 import { redisKeys } from "@/lib/redis-key-registry";
 import { redis } from "@/lib/redis";
 import { inngest } from "@/inngest/client";
+import { corsHeaders } from "@/lib/set-cors-header";
 
 export async function handlePageExit(
   req: NextRequest,
@@ -38,7 +39,7 @@ export async function handlePageExit(
       website_id: website.id,
     },
   });
-  const response = NextResponse.json({ sessionId }, { status: 200 });
+  const response = NextResponse.json({ sessionId }, { status: 200,headers:corsHeaders(website.domain) });
   response.cookies.delete(process.env.PIXEL_SESSION_COOKIE_NAME!);
   await redis.del(redisKeys.PIXEL_VISITOR_SESSION_KEY(sessionId));
   return response;

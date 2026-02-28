@@ -8,6 +8,7 @@ import { getVisitorSessionFromCookie } from "@/features/analytics/lib/get-visito
 import { redisKeys } from "@/lib/redis-key-registry";
 import { redis } from "@/lib/redis";
 import { inngest } from "@/inngest/client";
+import { corsHeaders } from "@/lib/set-cors-header";
 
 export async function handlePathChange(
   req: NextRequest,
@@ -28,7 +29,7 @@ export async function handlePathChange(
     rawPayload: parsed,
     pathHistory: parsed.path_history,
   });
-  const response = NextResponse.json({ sessionId }, { status: 200 });
+  const response = NextResponse.json({ sessionId }, { status: 200,headers:corsHeaders(website.domain) });
   await redis.set(
     redisKeys.PIXEL_VISITOR_SESSION_KEY(sessionId),
     {

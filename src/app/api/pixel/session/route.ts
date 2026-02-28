@@ -2,7 +2,7 @@ import { verifyPixel } from "@/lib/verify-pixel";
 import { checkOldVisitor } from "@/lib/check-old-visitor";
 import { NextRequest, NextResponse } from "next/server";
 import { handleNewVisitor } from "@/features/analytics/lib/handle-new-visitor";
-function corsHeaders(origin: string | null) {
+export function corsHeaders(origin: string | null) {
   return {
     "Access-Control-Allow-Origin": origin ?? "",
     "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
@@ -33,7 +33,7 @@ export const POST = async (req: NextRequest) => {
 
   const oldVisitor = await checkOldVisitor(req);
   if (oldVisitor) {
-    return NextResponse.json(null, { status: 200 });
+    return NextResponse.json(null, { status: 200 ,headers:corsHeaders(origin)});
   }
   const newVisitorResponseWithCookie = await handleNewVisitor(req, {
     user_agent,

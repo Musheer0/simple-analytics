@@ -4,6 +4,7 @@ import prisma from "@/lib/db";
 import { getCountryCode } from "@/lib/get-country-code";
 import { redis } from "@/lib/redis";
 import { redisKeys } from "@/lib/redis-key-registry";
+import { corsHeaders } from "@/lib/set-cors-header";
 import { signJwtInfinite } from "@/lib/sign-jwt";
 import { NextRequest, NextResponse } from "next/server";
 import { UAParser } from "ua-parser-js";
@@ -50,7 +51,7 @@ export const handleNewVisitor = async (
     website_id: website.id,
   };
   const jwt_token = signJwtInfinite(jwt_payload);
-  const response = NextResponse.json({ success: true }, { status: 200 });
+  const response = NextResponse.json({ success: true }, { status: 200,headers:corsHeaders(website.domain) });
   await inngest.send({
     name: "analytics/update_analytics",
     data: {

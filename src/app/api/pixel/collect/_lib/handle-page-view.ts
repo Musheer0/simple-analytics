@@ -7,6 +7,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { redis } from "@/lib/redis";
 import { redisKeys } from "@/lib/redis-key-registry";
 import { inngest } from "@/inngest/client";
+import { corsHeaders } from "@/lib/set-cors-header";
 
 export async function handlePageView(
   req: NextRequest,
@@ -47,7 +48,7 @@ export async function handlePageView(
     },
     
   });
-  const response = NextResponse.json({ sessionId }, { status: 200 });
+  const response = NextResponse.json({ sessionId }, { status: 200,headers:corsHeaders(website.domain) });
 
   response.cookies.set(
     process.env.PIXEL_SESSION_COOKIE_NAME || "visitor_session",
