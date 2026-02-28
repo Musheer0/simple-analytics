@@ -89,12 +89,16 @@ export default function Home() {
                 Pricing
               </Link>
               <div className="flex gap-2 pt-2">
+               <Link href={'/sign-in'}>
                 <Button variant="ghost" size="sm" className="w-full">
                   Log In
                 </Button>
+               </Link>
+                <Link href={'/sign-up'}>
                 <Button size="sm" className="w-full">
                   Get Started
                 </Button>
+                </Link>
               </div>
             </div>
           )}
