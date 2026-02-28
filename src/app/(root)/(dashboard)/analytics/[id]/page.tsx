@@ -12,7 +12,7 @@ const page = async({params,searchParams}:{params:Promise<{id:string}>,searchPara
  if(analytics && 'website' in analytics)
   return <div className="flex-1 max-w-6xl space-y-5 mx-auto w-full h-full h-min-screen p-4" >
     <AnalyticsWebsiteCard website={analytics.website}/>
-    <VisitorAnalytics data={analytics}/>
+    <VisitorAnalytics data={analytics} trend={analytics.trend}/>
     <OtherAnalytics data={analytics}/>
   </div>;
 };

@@ -109,13 +109,27 @@ type WebsiteCardProps = {
 };
 
 const WebsiteCard = ({ website }: WebsiteCardProps) => {
+  const faviconUrl = `https://www.google.com/s2/favicons?domain=${website.domain}&sz=64`;
+
   return (
     <Link href={`/analytics/${website.id}`}>
-      <Card className="w-full  sm:w-[300px] transition hover:shadow-md hover:-translate-y-1 duration-200">
+      <Card className="w-full sm:w-[300px] transition hover:shadow-md hover:-translate-y-1 duration-200">
         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-3">
-          <CardTitle className="text-base font-semibold truncate">
-            {website.domain}
-          </CardTitle>
+          
+          <div className="flex items-center gap-2 min-w-0">
+            <img
+              src={faviconUrl}
+              alt={`${website.domain} favicon`}
+              className="w-5 h-5 rounded-sm shrink-0"
+              onError={(e) => {
+                e.currentTarget.style.display = "none";
+              }}
+            />
+
+            <CardTitle className="text-base font-semibold truncate">
+              {website.domain}
+            </CardTitle>
+          </div>
 
           <Badge variant="outline" className="gap-1 shrink-0">
             <Globe className="w-3 h-3" />
@@ -131,3 +145,4 @@ const WebsiteCard = ({ website }: WebsiteCardProps) => {
     </Link>
   );
 };
+

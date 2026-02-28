@@ -12,4 +12,11 @@ export const redisKeys = {
   BASIC_WEBSITE_ANALYTICS_THREE_MONTHS: (websiteId: string) =>`basic:website:${websiteId}:analytics:3months`,
   BASIC_WEBSITE_ANALYTICS_ONE_YEAR: (websiteId: string) =>`basic:website:${websiteId}:analytics:1year`,
   BASIC_WEBSITE_ANALYTICS_TWO_YEAR: (websiteId: string) =>`basic:website:${websiteId}:analytics:2years`,
+  ANALYTICS_SNAPSHOT_KEY:(websiteId:string, date:string)=>`analytics:snapshot:${websiteId}:date:${date}`,
+  TREND_ANALYTICS: (
+  websiteId: string,
+  days: number,
+  granularity: "hourly" | "daily"
+) =>
+  `TREND_ANALYTICS:${websiteId}:${days}d:${granularity}`,
 };

@@ -13,6 +13,9 @@ import React from 'react'
 import { InstallDialog } from './install-analytics-dialog'
 import { ANALYTICS_TIME } from '@/constants'
 import { useRouter, useSearchParams } from 'next/navigation'
+import Link from 'next/link'
+import { ArrowLeft, } from '@hugeicons/core-free-icons'
+import { HugeiconsIcon } from '@hugeicons/react'
 
 const AnalyticsWebsiteCard = ({website}:{website:Website}) => {
   const  router = useRouter()
@@ -46,9 +49,12 @@ const AnalyticsWebsiteCard = ({website}:{website:Website}) => {
     ]
   return (
     <div className='w-fll flex items-center justify-between py-5'>
-      <div className="website flex items-center gap-2   ">
+      <div className="left flex items-center gap-2">
+        <Link href={'/websites'} className='px-4'><HugeiconsIcon icon={ArrowLeft}/></Link>
+        <div className="website flex items-center gap-2   ">
         <img className='w-7 h-7' src={website.domain+'/favicon.ico'} alt="website favicon" />
         <p className='font-semibold text-sm'>{website.domain.split(website.domain.includes('http://')? 'http://':'https://')[1]}</p>
+      </div>
       </div>
       <div className="right flex items-center gap-2">
         <InstallDialog id={website.id}/>

@@ -23,7 +23,7 @@ model Website {
   org_id     String
   sessions   Session[]
   events     Event[]
-   basic_analytics  BasicWebsiteAnalytics?
+   basic_analytics  AnalyticsSnapshot[]
   @@unique([domain])
   @@index([user_id, org_id])
   @@index([user_id])
@@ -122,26 +122,19 @@ model Event {
 }
 
 
-model BasicWebsiteAnalytics {
+model AnalyticsSnapshot {
   id        String   @id @default(cuid())
-  websiteId String @unique
+  websiteId String 
   website Website @relation(fields: [websiteId],references: [id], onDelete: Cascade)
   // visitor_section
   bounceRate Float @default(0)
   pageViews  Int   @default(0)
   visitors   Int   @default(0)
-
-  // pages_section (parallel arrays)
-  pageHistory Json[]  @default([])
-
-  // utm.source
-  utm_source Json[]  @default([])
- 
-  // utm.campaign
-  utm_campaign  Json[] @default([])
-   snapshot_at DateTime @updatedAt
-  //metadata 
-  metadata Json @default("{\"browser\": {}, \"country_code\": {}, \"device_type\": {}, \"os\": {}, \"referrer\": {}}")
+  snapshot_at DateTime @default(now())
+  duration   Int    @default(3600000) //one hour snapshot
   last_updated DateTime @updatedAt
   createdAt DateTime @default(now())
+@@index([websiteId, snapshot_at])
+@@index([websiteId, duration, snapshot_at])
+  @@unique([websiteId, snapshot_at, duration])
 }

@@ -40,7 +40,8 @@ export type WebsiteAnalytics = {
   browsers: Record<string, number>;
   pages:PageHistory,
   duration?:keyof typeof ANALYTICS_TIME,
-  cached_at?:Date
+  cached_at?:Date,
+  trend:TrendPoint
 };
 
 export type inngest_update_cache = {
@@ -58,3 +59,22 @@ export type inngest_update_cache = {
   },
   path_changes?:string[]
 }
+export type DailyAnalytics = {
+  website_id: string
+  day: Date
+  total_page_views: number
+  visitors: number
+  bounce_rate: number | null
+}
+export type HourlyAnalytics = {
+  website_id: string
+  hour: Date
+  total_page_views: number
+  visitors: number
+  bounce_rate: number | null
+}
+export type TrendPoint = {
+  visits: number;       // from pageViews
+  bounce_rate: number;  // from bounceRate
+  visitors: number;
+};
