@@ -73,7 +73,22 @@ export const update_analytic_cache_by_time = async (
     );
     updated_cache.devices = cache_devices;
   }
-
+   if(data.utm_source){
+     const cache_utm_source = updateStringNumberRecord(
+      "devices",
+      updated_cache.utm_source||{},
+      data.utm_source,
+    );
+    updated_cache.utm_source = cache_utm_source;
+   }
+   if(data.utm_campaign){
+     const cache_utm_campaign = updateStringNumberRecord(
+      "devices",
+      updated_cache.utm_campaign||{},
+      data.utm_campaign,
+    );
+    updated_cache.utm_campaign = cache_utm_campaign;
+   }
   if (data.operating_systems) {
     const cache_os = updateStringNumberRecord(
       "operating_systems",
