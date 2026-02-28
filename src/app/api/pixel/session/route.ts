@@ -21,7 +21,7 @@ export async function OPTIONS(req: Request) {
 
 export const POST = async (req: NextRequest) => {
   const body = await req.json();
-  const origin = req.headers.get("referer");
+  const origin = req.headers.get("origin");
   const user_agent = req.headers.get("user-agent");
 
   if (!origin) return NextResponse.json({ success: false }, { status: 400 });
