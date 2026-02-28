@@ -17,7 +17,7 @@ const eventHandlers = {
 function corsHeaders(origin: string | null) {
   
   return {
-    "Access-Control-Allow-Origin": (origin?.endsWith('/')) ?? "",
+    "Access-Control-Allow-Origin": origin?? "",
     "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
     "Access-Control-Allow-Headers": "Content-Type, Authorization",
     "Access-Control-Allow-Credentials": "true",
