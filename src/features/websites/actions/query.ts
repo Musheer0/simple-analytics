@@ -28,6 +28,9 @@ export const getWebsitePaginatedNoCache = async (cursor?: number) => {
       org_id: orgId,
     },
     take: 11,
+    orderBy:{
+      created_at:'desc'
+    }
   });
   const nextCursor = websites.length > 10 ? websites[10].created_at : null;
   return {
