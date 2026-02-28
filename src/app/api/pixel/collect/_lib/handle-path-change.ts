@@ -14,9 +14,9 @@ export async function handlePathChange(
   context: Awaited<ReturnType<typeof resolveRequestContext>>,
 ) {
   const { parsed, website, pixelCookie } = context!;
-  if (!website) return NextResponse.json({ success: false }, { status: 400 });
+  if (!website) return NextResponse.json({ success: false }, { status: 404 });
   const sessionId = getVisitorSessionFromCookie(req);
-  if (!sessionId) return NextResponse.json({ success: false }, { status: 400 });
+  if (!sessionId) return NextResponse.json({ success: false }, { status: 403 });
 
   await createEvent({
     type: parsed.type,
