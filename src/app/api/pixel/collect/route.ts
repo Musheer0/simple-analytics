@@ -14,6 +14,22 @@ const eventHandlers = {
   PAGE_UNBLUR: handlePageUnBlur,
   HEARTBEAT: handleHeartBeat,
 } as const;
+function corsHeaders(origin: string | null) {
+  return {
+    "Access-Control-Allow-Origin": origin ?? "",
+    "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
+    "Access-Control-Allow-Headers": "Content-Type, Authorization",
+    "Access-Control-Allow-Credentials": "true",
+  };
+}
+export async function OPTIONS(req: Request) {
+  const origin = req.headers.get("origin");
+
+  return new NextResponse(null, {
+    status: 204,
+    headers: corsHeaders(origin),
+  });
+}
 export const POST = async (req: NextRequest) => {
   const context = await resolveRequestContext(req);
   if (!context) return NextResponse.json({ success: false }, { status: 400 });
