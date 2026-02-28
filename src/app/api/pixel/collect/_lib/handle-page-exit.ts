@@ -35,11 +35,14 @@ export async function handlePageExit(
     name: "analytics/update_analytics",
     data: {
       type: parsed.type,
-      path_changes: parsed.path_history||[],
+      path_changes: parsed.path_history || [],
       website_id: website.id,
     },
   });
-  const response = NextResponse.json({ sessionId }, { status: 200,headers:corsHeaders(website.domain) });
+  const response = NextResponse.json(
+    { sessionId },
+    { status: 200, headers: corsHeaders(website.domain) },
+  );
   response.cookies.delete(process.env.PIXEL_SESSION_COOKIE_NAME!);
   await redis.del(redisKeys.PIXEL_VISITOR_SESSION_KEY(sessionId));
   return response;

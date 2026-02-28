@@ -1,8 +1,8 @@
 document.addEventListener(
   "DOMContentLoaded",
   (async function () {
-      if (window.__PIXEL_LOADED__) return;
-  window.__PIXEL_LOADED__ = true;
+    if (window.__PIXEL_LOADED__) return;
+    window.__PIXEL_LOADED__ = true;
 
     if (typeof window === "undefined") return;
     const base_url = "https://simple-analytics-liart.vercel.app/api/pixel";
@@ -35,7 +35,7 @@ document.addEventListener(
         "Content-Type": "application/json",
       },
       keepalive: true,
-      credentials:"include"
+      credentials: "include",
     });
     if (!_session.ok) return;
 
@@ -93,7 +93,6 @@ document.addEventListener(
     };
     sendEvent("page_view");
 
-   
     window.addEventListener("popstate", sendPathChange);
     window.addEventListener("pagehide", sendExit);
   })(),

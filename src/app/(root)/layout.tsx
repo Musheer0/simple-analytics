@@ -14,7 +14,6 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
       <TanstackReactQueryClientProvider>
         {children}
       </TanstackReactQueryClientProvider>
-        
     </ClerkProvider>
   );
 };

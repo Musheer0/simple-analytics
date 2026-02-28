@@ -5,7 +5,7 @@ import { Card, CardContent } from "@/components/ui/card";
 function SkeletonBlock({ className }: { className?: string }) {
   return (
     <div
-   className={`relative overflow-hidden bg-muted/40 rounded-md ${className}
+      className={`relative overflow-hidden bg-muted/40 rounded-md ${className}
       before:absolute before:inset-0
       before:animate-shimmer
       before:bg-gradient-to-r
@@ -13,14 +13,13 @@ function SkeletonBlock({ className }: { className?: string }) {
       before:via-white/10
       animate-shimmer 
       before:to-transparent`}
-       />
+    />
   );
 }
 
 export default function Loading() {
   return (
     <div className="space-y-6 mx-auto w-full max-w-6xl p-6">
-
       {/* Top Stat Cards */}
       <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-4">
         {[...Array(4)].map((_, i) => (
@@ -73,7 +72,6 @@ export default function Loading() {
           </div>
         </CardContent>
       </Card>
-
     </div>
   );
 }

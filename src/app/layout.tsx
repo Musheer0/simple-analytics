@@ -10,26 +10,27 @@ const geistMono = Host_Grotesk({
   subsets: ["latin"],
 });
 export const metadata: Metadata = {
-  title: 'Simple Analytics | Lightweight Website Analytics',
-  description: 'Lightweight, script-based website analytics. Drop a script, collect events, see clean analytics. Fast, easy integration with real-time dashboard.',
+  title: "Simple Analytics | Lightweight Website Analytics",
+  description:
+    "Lightweight, script-based website analytics. Drop a script, collect events, see clean analytics. Fast, easy integration with real-time dashboard.",
   icons: {
     icon: [
       {
-        url: '/icon-light-32x32.png',
-        media: '(prefers-color-scheme: light)',
+        url: "/icon-light-32x32.png",
+        media: "(prefers-color-scheme: light)",
       },
       {
-        url: '/icon-dark-32x32.png',
-        media: '(prefers-color-scheme: dark)',
+        url: "/icon-dark-32x32.png",
+        media: "(prefers-color-scheme: dark)",
       },
       {
-        url: '/icon.svg',
-        type: 'image/svg+xml',
+        url: "/icon.svg",
+        type: "image/svg+xml",
       },
     ],
-    apple: '/apple-icon.png',
+    apple: "/apple-icon.png",
   },
-}
+};
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -38,7 +39,11 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
-        <script async src="https://simple-analytics-liart.vercel.app/js/pixel.min.js" data-websiteid="cmm6358j8000004ld369zx3y4"></script>
+        <script
+          async
+          src="https://simple-analytics-liart.vercel.app/js/pixel.min.js"
+          data-websiteid="cmm6358j8000004ld369zx3y4"
+        ></script>
       </head>
       <body className={`${geistMono.className} antialiased`}>
         <ThemeProvider
@@ -50,7 +55,6 @@ export default function RootLayout({
           <TooltipProvider>{children}</TooltipProvider>
           <Toaster />{" "}
         </ThemeProvider>
-     
       </body>
     </html>
   );

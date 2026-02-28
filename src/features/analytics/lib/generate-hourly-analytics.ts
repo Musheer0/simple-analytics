@@ -1,5 +1,5 @@
-import prisma from "@/lib/db"
-import { HourlyAnalytics } from "../types"
+import prisma from "@/lib/db";
+import { HourlyAnalytics } from "../types";
 
 export const generateHourlyAnalyticsSnapshot = async () => {
   const data = await prisma.$queryRaw<HourlyAnalytics[]>`
@@ -50,21 +50,21 @@ export const generateHourlyAnalyticsSnapshot = async () => {
       ON s.website_id = b.website_id
       AND s.hour = b.hour
     ORDER BY s.hour DESC;
-  `
+  `;
 
-  if (!data.length) return
+  if (!data.length) return;
 
   await prisma.analyticsSnapshot.createMany({
     data: data.map((d) => ({
       websiteId: d.website_id,
       pageViews: d.total_page_views,
       visitors: d.visitors,
-      bounceRate: d.bounce_rate||0,
+      bounceRate: d.bounce_rate || 0,
       duration: 1000 * 60 * 60, // 1 hour
-      snapshot_at:d.hour,
+      snapshot_at: d.hour,
     })),
     skipDuplicates: true,
-  })
-  const oldest = data[data.length - 1] ?? null
-  return oldest
-}
+  });
+  const oldest = data[data.length - 1] ?? null;
+  return oldest;
+};

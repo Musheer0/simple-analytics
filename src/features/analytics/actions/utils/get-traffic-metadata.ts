@@ -1,9 +1,15 @@
 import prisma from "@/lib/db";
-import { AnalyticsSummary, PageHistory, TrafficMetadata, UtmMetadata, WebsiteAnalytics } from "../../types";
+import {
+  AnalyticsSummary,
+  PageHistory,
+  TrafficMetadata,
+  UtmMetadata,
+  WebsiteAnalytics,
+} from "../../types";
 
 export const getTrafficMetadata = async (
   websiteId: string,
-  duration: string
+  duration: string,
 ): Promise<TrafficMetadata> => {
   const [data] = await prisma.$queryRaw<TrafficMetadata[]>`
   WITH country_data AS (

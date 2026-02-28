@@ -51,7 +51,10 @@ export const handleNewVisitor = async (
     website_id: website.id,
   };
   const jwt_token = signJwtInfinite(jwt_payload);
-  const response = NextResponse.json({ success: true }, { status: 200,headers:corsHeaders(website.domain) });
+  const response = NextResponse.json(
+    { success: true },
+    { status: 200, headers: corsHeaders(website.domain) },
+  );
   await inngest.send({
     name: "analytics/update_analytics",
     data: {

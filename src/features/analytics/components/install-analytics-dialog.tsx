@@ -1,7 +1,7 @@
-'use client'
+"use client";
 
-import { useState } from 'react'
-import { Copy, Check, Download } from 'lucide-react'
+import { useState } from "react";
+import { Copy, Check, Download } from "lucide-react";
 import {
   Dialog,
   DialogContent,
@@ -9,23 +9,23 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from '@/components/ui/dialog'
-import { Button } from '@/components/ui/button'
+} from "@/components/ui/dialog";
+import { Button } from "@/components/ui/button";
 
 interface InstallDialogProps {
-  id: string
+  id: string;
 }
 
 export function InstallDialog({ id }: InstallDialogProps) {
-  const [copied, setCopied] = useState(false)
+  const [copied, setCopied] = useState(false);
 
-  const scriptTag = `<script async src="${window.origin}/js/pixel.min.js" data-websiteid="${id}"></script>`
+  const scriptTag = `<script async src="${window.origin}/js/pixel.min.js" data-websiteid="${id}"></script>`;
 
   const copyToClipboard = () => {
-    navigator.clipboard.writeText(scriptTag)
-    setCopied(true)
-    setTimeout(() => setCopied(false), 2000)
-  }
+    navigator.clipboard.writeText(scriptTag);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  };
 
   return (
     <Dialog>
@@ -44,7 +44,9 @@ export function InstallDialog({ id }: InstallDialogProps) {
         </DialogHeader>
         <div className="space-y-4">
           <div className="p-4 bg-muted rounded-lg border border-border">
-            <p className="text-sm font-medium mb-3">Add to your website's &lt;head&gt; section:</p>
+            <p className="text-sm font-medium mb-3">
+              Add to your website's &lt;head&gt; section:
+            </p>
             <div className="relative">
               <code className="block text-xs bg-background p-3 rounded border border-border overflow-x-auto">
                 {scriptTag}
@@ -73,7 +75,9 @@ export function InstallDialog({ id }: InstallDialogProps) {
               </li>
               <li className="flex gap-3">
                 <span className="font-medium min-w-6">2.</span>
-                <span>Paste it in the &lt;head&gt; section of your HTML file</span>
+                <span>
+                  Paste it in the &lt;head&gt; section of your HTML file
+                </span>
               </li>
               <li className="flex gap-3">
                 <span className="font-medium min-w-6">3.</span>
@@ -88,5 +92,5 @@ export function InstallDialog({ id }: InstallDialogProps) {
         </div>
       </DialogContent>
     </Dialog>
-  )
+  );
 }

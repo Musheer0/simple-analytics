@@ -15,21 +15,16 @@ export type TrendAnalytics = {
 };
 export const getTrendAnalytics = async ({
   websiteId,
-  days
+  days,
 }: {
   websiteId: string;
   days: number;
 }) => {
-
   if (!websiteId || !days) throw new Error("Invalid params");
 
-const granularity = days <= 7 ? "hourly" : "daily";
+  const granularity = days <= 7 ? "hourly" : "daily";
 
-const cacheKey = redisKeys.TREND_ANALYTICS(
-  websiteId,
-  days,
-  granularity
-);
+  const cacheKey = redisKeys.TREND_ANALYTICS(websiteId, days, granularity);
   const cached = await redis.get<TrendAnalytics>(cacheKey);
   if (cached) return cached;
 
@@ -39,18 +34,18 @@ const cacheKey = redisKeys.TREND_ANALYTICS(
     where: {
       websiteId,
       snapshot_at: {
-        gte: fromDate
-      }
+        gte: fromDate,
+      },
     },
     select: {
       bounceRate: true,
       pageViews: true,
       visitors: true,
-      snapshot_at: true
+      snapshot_at: true,
     },
     orderBy: {
-      snapshot_at: "asc"
-    }
+      snapshot_at: "asc",
+    },
   });
 
   if (!snapshots.length) {
@@ -58,33 +53,26 @@ const cacheKey = redisKeys.TREND_ANALYTICS(
       pageViews: 0,
       visitors: 0,
       bounceRate: 0,
-      trend: []
+      trend: [],
     };
   }
 
-  const totalPageViews = snapshots.reduce(
-    (acc, s) => acc + s.pageViews,
-    0
-  );
+  const totalPageViews = snapshots.reduce((acc, s) => acc + s.pageViews, 0);
 
-  const totalVisitors = snapshots.reduce(
-    (acc, s) => acc + s.visitors,
-    0
-  );
+  const totalVisitors = snapshots.reduce((acc, s) => acc + s.visitors, 0);
 
   const avgBounce =
-    snapshots.reduce((acc, s) => acc + s.bounceRate, 0) /
-    snapshots.length;
+    snapshots.reduce((acc, s) => acc + s.bounceRate, 0) / snapshots.length;
 
   const result = {
     pageViews: totalPageViews,
     visitors: totalVisitors,
     bounceRate: Number(avgBounce.toFixed(2)),
-    trend: snapshots
+    trend: snapshots,
   };
 
   await redis.set(cacheKey, result, {
-    ex: TTL.HOUR_1
+    ex: TTL.HOUR_1,
   });
 
   return result;

@@ -22,10 +22,10 @@ export async function handlePageView(
     utmCampaign: parsed.utm_campaign || "",
     utmSource: parsed.utm_source || "",
   });
-   if(!parsed.url.endsWith('/')) {
-    if(parsed.path_history) parsed.path_history.push(parsed.url)
-    else parsed.path_history = [parsed.url]
-   }
+  if (!parsed.url.endsWith("/")) {
+    if (parsed.path_history) parsed.path_history.push(parsed.url);
+    else parsed.path_history = [parsed.url];
+  }
   await createEvent({
     type: parsed.type,
     sessionId,
@@ -41,14 +41,16 @@ export async function handlePageView(
     data: {
       ...parsed,
       page_view: {
-        utm_campaign:parsed.utm_campaign,
-        utm_source:parsed.utm_source
+        utm_campaign: parsed.utm_campaign,
+        utm_source: parsed.utm_source,
       },
       website_id: website.id,
     },
-    
   });
-  const response = NextResponse.json({ sessionId }, { status: 200,headers:corsHeaders(website.domain) });
+  const response = NextResponse.json(
+    { sessionId },
+    { status: 200, headers: corsHeaders(website.domain) },
+  );
 
   response.cookies.set(
     process.env.PIXEL_SESSION_COOKIE_NAME || "visitor_session",
@@ -68,7 +70,7 @@ export async function handlePageView(
       session_id: sessionId,
       last_heartbeat: new Date(),
     },
-    { ex:  60 * 30 },
+    { ex: 60 * 30 },
   );
   return response;
 }

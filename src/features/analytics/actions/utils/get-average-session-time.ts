@@ -1,8 +1,14 @@
 import prisma from "@/lib/db";
-import { AnalyticsSummary, PageHistory, TrafficMetadata, UtmMetadata, WebsiteAnalytics } from "../../types";
+import {
+  AnalyticsSummary,
+  PageHistory,
+  TrafficMetadata,
+  UtmMetadata,
+  WebsiteAnalytics,
+} from "../../types";
 export const getAverageSessionTime = async (
   websiteId: string,
-  duration: string
+  duration: string,
 ): Promise<number> => {
   const [data] = await prisma.$queryRaw<{ avg_time: number }[]>`
     SELECT AVG(active_time)/1000 AS avg_time

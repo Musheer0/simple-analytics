@@ -33,7 +33,10 @@ export const POST = async (req: NextRequest) => {
 
   const oldVisitor = await checkOldVisitor(req);
   if (oldVisitor) {
-    return NextResponse.json(null, { status: 200 ,headers:corsHeaders(origin)});
+    return NextResponse.json(null, {
+      status: 200,
+      headers: corsHeaders(origin),
+    });
   }
   const newVisitorResponseWithCookie = await handleNewVisitor(req, {
     user_agent,

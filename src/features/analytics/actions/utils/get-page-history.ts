@@ -1,9 +1,15 @@
 import prisma from "@/lib/db";
-import { AnalyticsSummary, PageHistory, TrafficMetadata, UtmMetadata, WebsiteAnalytics } from "../../types";
+import {
+  AnalyticsSummary,
+  PageHistory,
+  TrafficMetadata,
+  UtmMetadata,
+  WebsiteAnalytics,
+} from "../../types";
 
 export const getPageHistory = async (
   websiteId: string,
-  duration: string
+  duration: string,
 ): Promise<PageHistory> => {
   return prisma.$queryRaw<PageHistory>`
   SELECT UNNEST(path_history) AS page,

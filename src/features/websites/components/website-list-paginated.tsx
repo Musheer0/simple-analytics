@@ -115,7 +115,6 @@ const WebsiteCard = ({ website }: WebsiteCardProps) => {
     <Link href={`/analytics/${website.id}`}>
       <Card className="w-full sm:w-[300px] transition hover:shadow-md hover:-translate-y-1 duration-200">
         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-3">
-          
           <div className="flex items-center gap-2 min-w-0">
             <img
               src={faviconUrl}
@@ -145,4 +144,3 @@ const WebsiteCard = ({ website }: WebsiteCardProps) => {
     </Link>
   );
 };
-

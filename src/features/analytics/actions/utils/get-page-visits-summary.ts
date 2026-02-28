@@ -1,9 +1,9 @@
 import prisma from "@/lib/db";
-import { AnalyticsSummary, } from "../../types";
+import { AnalyticsSummary } from "../../types";
 
 export const getPageVisitorSummary = async (
   websiteId: string,
-  duration: string
+  duration: string,
 ): Promise<AnalyticsSummary> => {
   const [data] = await prisma.$queryRaw<AnalyticsSummary[]>`
   WITH session_stats AS (

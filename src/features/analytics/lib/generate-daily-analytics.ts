@@ -1,5 +1,5 @@
-import prisma from "@/lib/db"
-import { DailyAnalytics } from "@/features/analytics/types"
+import prisma from "@/lib/db";
+import { DailyAnalytics } from "@/features/analytics/types";
 
 export const generateDailyAnalyticsSnapshot = async () => {
   const data = await prisma.$queryRaw<DailyAnalytics[]>`
@@ -50,9 +50,9 @@ export const generateDailyAnalyticsSnapshot = async () => {
       ON s.website_id = b.website_id
       AND s.day = b.day
     ORDER BY s.day DESC;
-  `
+  `;
 
-  if (!data.length) return
+  if (!data.length) return;
 
   await prisma.analyticsSnapshot.createMany({
     data: data.map((d) => ({
@@ -63,8 +63,8 @@ export const generateDailyAnalyticsSnapshot = async () => {
       duration: 1000 * 60 * 60 * 24, // 24 hours
       snapshot_at: new Date(d.day), // better than new Date()
     })),
-    skipDuplicates:true
+    skipDuplicates: true,
   });
-    const oldest = data[data.length - 1] ?? null
-  return oldest
-}
+  const oldest = data[data.length - 1] ?? null;
+  return oldest;
+};

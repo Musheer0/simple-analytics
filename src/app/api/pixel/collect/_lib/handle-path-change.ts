@@ -29,7 +29,10 @@ export async function handlePathChange(
     rawPayload: parsed,
     pathHistory: parsed.path_history,
   });
-  const response = NextResponse.json({ sessionId }, { status: 200,headers:corsHeaders(website.domain) });
+  const response = NextResponse.json(
+    { sessionId },
+    { status: 200, headers: corsHeaders(website.domain) },
+  );
   await redis.set(
     redisKeys.PIXEL_VISITOR_SESSION_KEY(sessionId),
     {
@@ -43,7 +46,7 @@ export async function handlePathChange(
     name: "analytics/update_analytics",
     data: {
       type: parsed.type,
-      path_changes: parsed.path_history||[],
+      path_changes: parsed.path_history || [],
       website_id: website.id,
     },
   });
