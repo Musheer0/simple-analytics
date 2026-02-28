@@ -55,7 +55,7 @@ export async function handlePageView(
     {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
-      sameSite: "lax",
+      sameSite: "none",
       path: "/",
       expires: new Date(Date.now() + 1000 * 60 * 60 * 24),
     },

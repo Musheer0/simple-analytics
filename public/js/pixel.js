@@ -35,6 +35,7 @@ document.addEventListener(
         "Content-Type": "application/json",
       },
       keepalive: true,
+      credentials:"include"
     });
     if (!_session.ok) return;
 

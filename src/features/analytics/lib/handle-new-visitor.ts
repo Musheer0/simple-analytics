@@ -67,7 +67,7 @@ export const handleNewVisitor = async (
   response.cookies.set("_visitor_sa", jwt_token, {
     httpOnly: true,
     secure: process.env.NODE_ENV === "production",
-    sameSite: "lax",
+    sameSite: "none",
     path: "/",
   });
 
