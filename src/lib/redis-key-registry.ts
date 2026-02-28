@@ -1,5 +1,22 @@
 export const redisKeys = {
-    WEBSITE_KEY_BY_ORG:(websiteId:string, orgId:string)=>`website:${websiteId}:by_orgId:${orgId}`,
-    WEBSITE_PAGINATED_KEY:(orgId:string, page:number,oldest:number)=>`website:org:${orgId}:cursor:${oldest}:page:${page}`,
-    WEBSITE_PAGINATED_KEY_WITHOUT_OLDEST:(orgId:string, page:number)=>`website:org:${orgId}:cursor:*:page:${page}`
-}
+  WEBSITE_KEY_BY_ORG: (websiteId: string, orgId: string) =>`website:${websiteId}:by_orgId:${orgId}`,
+  WEBSITE_PAGINATED_KEY: (orgId: string, page: number, oldest: number) =>`website:org:${orgId}:cursor:${oldest}:page:${page}`,
+  WEBSITE_PAGINATED_KEY_WITHOUT_OLDEST: (orgId: string, page: number) =>`website:org:${orgId}:cursor:*:page:${page}`,
+  WEBSITE_KEY_BY_ID: (websiteId: string) => `website:${websiteId}`,
+  PIXEL_VISITOR_KEY: (websiteId: string, visitorId: string) =>`pixel:website:${websiteId}:visitor:${visitorId}`,
+  PIXEL_VISITOR_SESSION_KEY: (session: string) => `pixel:session:${session}`,
+  BASIC_WEBSITE_ANALYTICS: (websiteId: string) =>`basic:website:${websiteId}:analytics`,
+  BASIC_WEBSITE_ANALYTICS_ONE_DAY: (websiteId: string) =>`basic:website:${websiteId}:analytics:1day`,
+  BASIC_WEBSITE_ANALYTICS_ONE_WEEK: (websiteId: string) =>`basic:website:${websiteId}:analytics:1week`,
+  BASIC_WEBSITE_ANALYTICS_ONE_MONTH: (websiteId: string) =>`basic:website:${websiteId}:analytics:1month`,
+  BASIC_WEBSITE_ANALYTICS_THREE_MONTHS: (websiteId: string) =>`basic:website:${websiteId}:analytics:3months`,
+  BASIC_WEBSITE_ANALYTICS_ONE_YEAR: (websiteId: string) =>`basic:website:${websiteId}:analytics:1year`,
+  BASIC_WEBSITE_ANALYTICS_TWO_YEAR: (websiteId: string) =>`basic:website:${websiteId}:analytics:2years`,
+  ANALYTICS_SNAPSHOT_KEY:(websiteId:string, date:string)=>`analytics:snapshot:${websiteId}:date:${date}`,
+  TREND_ANALYTICS: (
+  websiteId: string,
+  days: number,
+  granularity: "hourly" | "daily"
+) =>
+  `TREND_ANALYTICS:${websiteId}:${days}d:${granularity}`,
+};

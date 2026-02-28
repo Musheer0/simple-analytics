@@ -1,10 +1,10 @@
-"use client"
+"use client";
 
-import React from "react"
-import { useInfiniteQuery } from "@tanstack/react-query"
-import { getWebsitePaginatedNoCache } from "../actions/query"
-import type { pagniatedWebsiteQuery } from "../lib/type"
-import { format } from "date-fns"
+import React from "react";
+import { useInfiniteQuery } from "@tanstack/react-query";
+import { getWebsitePaginatedNoCache } from "../actions/query";
+import type { pagniatedWebsiteQuery } from "../lib/type";
+import { format } from "date-fns";
 
 import {
   Card,
@@ -12,13 +12,13 @@ import {
   CardTitle,
   CardContent,
   CardFooter,
-} from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
-import { Skeleton } from "@/components/ui/skeleton"
-import { Badge } from "@/components/ui/badge"
+} from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Skeleton } from "@/components/ui/skeleton";
+import { Badge } from "@/components/ui/badge";
 
-import { Globe, CalendarDays, Loader2 } from "lucide-react"
-import Link from "next/link"
+import { Globe, CalendarDays, Loader2 } from "lucide-react";
+import Link from "next/link";
 
 const WebsiteListPaginated = ({ orgId }: { orgId: string }) => {
   const {
@@ -34,7 +34,7 @@ const WebsiteListPaginated = ({ orgId }: { orgId: string }) => {
       getWebsitePaginatedNoCache(pageParam as number | undefined),
     initialPageParam: undefined,
     getNextPageParam: (lastPage) => lastPage.nextCursor ?? undefined,
-  })
+  });
 
   if (status === "pending") {
     return (
@@ -46,7 +46,7 @@ const WebsiteListPaginated = ({ orgId }: { orgId: string }) => {
           </Card>
         ))}
       </div>
-    )
+    );
   }
 
   if (status === "error") {
@@ -54,11 +54,10 @@ const WebsiteListPaginated = ({ orgId }: { orgId: string }) => {
       <div className="flex justify-center py-16 text-destructive">
         {(error as Error).message}
       </div>
-    )
+    );
   }
 
-  const websites =
-    data?.pages.flatMap((page) => page.websites) ?? []
+  const websites = data?.pages.flatMap((page) => page.websites) ?? [];
 
   if (!websites.length) {
     return (
@@ -66,7 +65,7 @@ const WebsiteListPaginated = ({ orgId }: { orgId: string }) => {
         <Globe className="w-10 h-10 opacity-50" />
         <p>No websites found</p>
       </div>
-    )
+    );
   }
 
   return (
@@ -86,20 +85,16 @@ const WebsiteListPaginated = ({ orgId }: { orgId: string }) => {
           disabled={!hasNextPage || isFetchingNextPage}
           className="gap-2"
         >
-          {isFetchingNextPage && (
-            <Loader2 className="w-4 h-4 animate-spin" />
-          )}
+          {isFetchingNextPage && <Loader2 className="w-4 h-4 animate-spin" />}
 
-          {hasNextPage
-            ? "Load More"
-            : "No More Websites"}
+          {hasNextPage ? "Load More" : "No More Websites"}
         </Button>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default WebsiteListPaginated
+export default WebsiteListPaginated;
 
 // -------------------------------
 // Website Card
@@ -107,34 +102,47 @@ export default WebsiteListPaginated
 
 type WebsiteCardProps = {
   website: {
-    id: string
-    domain: string
-    created_at: Date
-  }
-}
+    id: string;
+    domain: string;
+    created_at: Date;
+  };
+};
 
 const WebsiteCard = ({ website }: WebsiteCardProps) => {
+  const faviconUrl = `https://www.google.com/s2/favicons?domain=${website.domain}&sz=64`;
+
   return (
-   <Link
-   href={`/analytics/${website.id}`}
-   >
-    <Card className="w-full  sm:w-[300px] transition hover:shadow-md hover:-translate-y-1 duration-200">
-      <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-3">
-        <CardTitle className="text-base font-semibold truncate">
-          {website.domain}
-        </CardTitle>
+    <Link href={`/analytics/${website.id}`}>
+      <Card className="w-full sm:w-[300px] transition hover:shadow-md hover:-translate-y-1 duration-200">
+        <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-3">
+          
+          <div className="flex items-center gap-2 min-w-0">
+            <img
+              src={faviconUrl}
+              alt={`${website.domain} favicon`}
+              className="w-5 h-5 rounded-sm shrink-0"
+              onError={(e) => {
+                e.currentTarget.style.display = "none";
+              }}
+            />
 
-        <Badge variant="outline" className="gap-1 shrink-0">
-          <Globe className="w-3 h-3" />
-          Website
-        </Badge>
-      </CardHeader>
+            <CardTitle className="text-base font-semibold truncate">
+              {website.domain}
+            </CardTitle>
+          </div>
 
-      <CardContent className="text-sm text-muted-foreground flex items-center gap-2">
-        <CalendarDays className="w-4 h-4 shrink-0" />
-        {format(new Date(website.created_at), "dd MMM yyyy")}
-      </CardContent>
-    </Card>
-   </Link>
-  )
-}
+          <Badge variant="outline" className="gap-1 shrink-0">
+            <Globe className="w-3 h-3" />
+            Website
+          </Badge>
+        </CardHeader>
+
+        <CardContent className="text-sm text-muted-foreground flex items-center gap-2">
+          <CalendarDays className="w-4 h-4 shrink-0" />
+          {format(new Date(website.created_at), "dd MMM yyyy")}
+        </CardContent>
+      </Card>
+    </Link>
+  );
+};
+

@@ -12,17 +12,129 @@ generator client {
 datasource db {
   provider = "postgresql"
 }
-model Website {
-  id String @id @default(cuid())
-  user_id String 
-  domain String 
 
-  created_at DateTime @default(now())
-  updated_at DateTime @updatedAt
-  org_id String
+model Website {
+  id         String    @id @default(cuid())
+  user_id    String
+  domain     String
+  visitors   Visitor[]
+  created_at DateTime  @default(now())
+  updated_at DateTime  @updatedAt
+  org_id     String
+  sessions   Session[]
+  events     Event[]
+   basic_analytics  AnalyticsSnapshot[]
+  @@unique([domain])
   @@index([user_id, org_id])
   @@index([user_id])
   @@index([org_id])
-  @@index([domain ,org_id])
-  @@unique([domain, org_id])
+  @@index([domain, org_id])
+}
+
+model Visitor {
+  id           String  @id @default(cuid())
+  website_id   String
+  first_page   String
+  utm_campaign String?
+  utm_source   String?
+  user_agent   String
+  browser      String
+  referrer     String
+  os           String
+  country_code String
+  ip           String
+  device_type  String
+  visit_count  Int     @default(1)
+  website      Website @relation(references: [id], fields: [website_id], onDelete: Cascade)
+
+  created_at DateTime  @default(now())
+  updated_at DateTime  @updatedAt
+  sessions   Session[]
+  events     Event[]
+    @@index([website_id, created_at])
+  @@index([website_id, country_code])
+  @@index([website_id, device_type])
+  @@index([website_id, os])
+  @@index([website_id, browser])
+}
+
+model Session {
+  id String @id @default(cuid())
+
+  website_id String
+  visitor_id String
+
+  website Website @relation(fields: [website_id], references: [id], onDelete: Cascade)
+  visitor Visitor @relation(fields: [visitor_id], references: [id], onDelete: Cascade)
+
+  started_at DateTime  @default(now())
+  ended_at   DateTime?
+  last_heartbeat DateTime  @default(now())
+  screen_width Int?
+  utm_campaign String?
+  utm_source   String?
+
+  events Event[]
+
+    @@index([website_id, started_at])
+  @@index([website_id, utm_source, started_at])
+  @@index([website_id, utm_campaign, started_at])
+  @@index([visitor_id])
+}
+
+enum EventType {
+  PAGE_VIEW
+  PATH_CHANGE
+  PAGE_BLUR
+  PAGE_EXIT
+  HEARTBEAT
+  PAGE_UNBLUR
+}
+
+model Event {
+  id String @id @default(cuid())
+
+  website_id String
+  session_id String
+  visitor_id String
+
+  website Website @relation(fields: [website_id], references: [id], onDelete: Cascade)
+  session Session @relation(fields: [session_id], references: [id], onDelete: Cascade)
+  visitor Visitor @relation(fields: [visitor_id], references: [id], onDelete: Cascade)
+
+  type EventType
+
+  url          String
+  screen_width Int?
+
+  active_time  Int? // for blur / exit
+  path_history String[] @default([]) // only for path_change
+  raw_payload  Json? // future-proofing
+
+  created_at DateTime @default(now())
+
+  @@index([website_id, type, created_at])
+  @@index([website_id, created_at])
+  @@index([session_id])
+  @@index([visitor_id])
+  @@index([active_time, website_id])
+  @@index([active_time])
+}
+
+
+model AnalyticsSnapshot {
+  id        String   @id @default(cuid())
+  websiteId String 
+  website Website @relation(fields: [websiteId],references: [id], onDelete: Cascade)
+  // visitor_section
+  bounceRate Float @default(0)
+  pageViews  Int   @default(0)
+  visitors   Int   @default(0)
+  snapshot_at DateTime @default(now())
+  duration   Int    @default(3600000) //one hour snapshot
+  last_updated DateTime @updatedAt
+  createdAt DateTime @default(now())
+@@index([websiteId, snapshot_at])
+@@index([websiteId, duration, snapshot_at])
+  @@unique([websiteId, snapshot_at, duration])
 }
