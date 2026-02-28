@@ -5,7 +5,7 @@ document.addEventListener(
   window.__PIXEL_LOADED__ = true;
 
     if (typeof window === "undefined") return;
-    const base_url = "http://localhost:3000/api/pixel";
+    const base_url = "https://vercel.com/musheer0s-projects/api/pixel";
     const script = document.currentScript;
     var path_changes = []; //track path changes
     if (!script) return;
