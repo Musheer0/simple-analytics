@@ -22,6 +22,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <head>
+        <script async src="https://simple-analytics-liart.vercel.app/js/pixel.min.js" data-websiteid="cmm6358j8000004ld369zx3y4"></script>
+      </head>
       <body className={`${geistMono.className} antialiased`}>
         <ThemeProvider
           attribute="class"
