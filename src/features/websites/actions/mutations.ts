@@ -9,6 +9,7 @@ import prisma from "@/lib/db";
 import { redis } from "@/lib/redis";
 import { redisKeys } from "@/lib/redis-key-registry";
 import { TTL } from "@/constants";
+import { getWebsiteById } from "./query";
 export const AddWebsite = async (payload: AddWebsiteSchemaType) => {
   const { userId, orgId, orgRole, orgSlug } = await auth();
   const { success, error } = AddWebsiteSchema.safeParse(payload);
@@ -37,3 +38,20 @@ export const AddWebsite = async (payload: AddWebsiteSchemaType) => {
     throw new Error("Failed to create website.");
   }
 };
+export const DeleteWebsite = async(id:string)=>{
+  const { userId, orgId, orgRole, orgSlug } = await auth();
+  if (!userId || !orgId || !orgRole || !orgSlug) redirect("/sign-in");
+  const website = await getWebsiteById(id);
+  if(!website) throw new Error("website not found");
+  if(website.org_id!==orgId) throw new Error("Forbidden");
+  try {
+    await prisma.website.delete({
+      where:{id}
+    });
+    await redis.del(redisKeys.WEBSITE_KEY_BY_ID(website.id))
+    await redis.del(redisKeys.WEBSITE_KEY_BY_ORG(website.id,orgId));
+    return id
+  } catch (error) {
+    throw new Error("error deleting website try again")
+  }
+}

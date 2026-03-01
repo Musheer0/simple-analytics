@@ -19,6 +19,7 @@ import { Badge } from "@/components/ui/badge";
 
 import { Globe, CalendarDays, Loader2 } from "lucide-react";
 import Link from "next/link";
+import DeleteWebsiteButton from "./delete-website-button";
 
 const WebsiteListPaginated = ({ orgId }: { orgId: string }) => {
   const {
@@ -136,9 +137,11 @@ const WebsiteCard = ({ website }: WebsiteCardProps) => {
           </Badge>
         </CardHeader>
 
-        <CardContent className="text-sm text-muted-foreground flex items-center gap-2">
-          <CalendarDays className="w-4 h-4 shrink-0" />
+        <CardContent className="text-sm text-muted-foreground justify-between flex items-center gap-2">
+         <div className="flex items-center gap-1">
+           <CalendarDays className="w-4 h-4 shrink-0" />
           {format(new Date(website.created_at), "dd MMM yyyy")}
+         </div>
         </CardContent>
       </Card>
     </Link>

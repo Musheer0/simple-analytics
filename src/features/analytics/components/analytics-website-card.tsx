@@ -16,6 +16,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { ArrowLeft } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
+import DeleteWebsiteButton from "@/features/websites/components/delete-website-button";
 
 const AnalyticsWebsiteCard = ({ website }: { website: Website }) => {
   const router = useRouter();
@@ -88,6 +89,8 @@ const AnalyticsWebsiteCard = ({ website }: { website: Website }) => {
             </SelectGroup>
           </SelectContent>
         </Select>
+                  <DeleteWebsiteButton id={website.id}/>
+
       </div>
     </div>
   );

@@ -16,19 +16,31 @@ export const metadata: Metadata = {
   icons: {
     icon: [
       {
-        url: "/icon-light-32x32.png",
+        url: "/favicon-32x32.png",
         media: "(prefers-color-scheme: light)",
       },
       {
-        url: "/icon-dark-32x32.png",
+        url: "/favicon-32x32.png",
         media: "(prefers-color-scheme: dark)",
       },
+    ],
+    apple: "/favicon-32x32.png",
+  },
+  openGraph: {
+    title: "Simple Analytics | Lightweight Website Analytics",
+    description: "TLightweight, script-based website analytics. Drop a script, collect events, see clean analytics. Fast, easy integration with real-time dashboard.",
+    url: "https://mysite.com",
+    siteName: "Simple Analytics",
+    images: [
       {
-        url: "/icon.svg",
-        type: "image/svg+xml",
+        url: "http://simple-analytics-liart.vercel.app/ob.png",
+        width: 1200,
+        height: 630,
+        alt: "My OG Image",
       },
     ],
-    apple: "/apple-icon.png",
+    locale: "en_US",
+    type: "website",
   },
 };
 export default function RootLayout({
