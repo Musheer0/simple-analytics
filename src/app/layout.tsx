@@ -29,7 +29,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Simple Analytics | Lightweight Website Analytics",
     description: "TLightweight, script-based website analytics. Drop a script, collect events, see clean analytics. Fast, easy integration with real-time dashboard.",
-    url: "https://mysite.com",
+    url: "https://simple-analytics-liart.vercel.app",
     siteName: "Simple Analytics",
     images: [
       {
